@@ -6,11 +6,13 @@ const { ctrlWrapper } = require("../../helpers");
 
 const { validateBody, authenticate, upload} = require("../../middlewares");
 
-const { userJoiSchema } = require("../../models/user");
+const { userJoiSchema, emailSchema } = require("../../models/user");
 
 const router = express.Router();
 
 router.post("/register", validateBody(userJoiSchema), ctrlWrapper(ctrl.register));
+router.get("/verify/:verificationToken", ctrlWrapper(ctrl.verify));
+router.post("verify", validateBody(emailSchema), ctrlWrapper(ctrl.resendVerifyEmail));
 router.post("/login", validateBody(userJoiSchema), ctrlWrapper(ctrl.login));
 router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
 router.post("/logout", authenticate, ctrlWrapper(ctrl.logout));
