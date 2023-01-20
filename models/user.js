@@ -19,6 +19,14 @@ const userSchema = new Schema({
         enum: ["starter", "pro", "business"],
         default: "starter"
     },
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
+  },
     token: String,
     owner: {
         type: SchemaTypes.ObjectId,
@@ -33,11 +41,16 @@ const userJoiSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     subscription: Joi.string(),
-})
+});
+
+const emailSchema = Joi.object({
+    email: Joi.string().email().required(),
+});
 
 const User = model("user", userSchema);
 
 module.exports = {
     User,
     userJoiSchema,
+    emailSchema,
 }
